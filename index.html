@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roll the Cake</title>
+    <link href="style/style.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <BR/>
+    <div class="container">
+
+      <header>ROLL THE CAKE!</header>
+      <!-- we're using javascript to code this badboy -->
+      <script src="./scripts/index.js" type="module"></script>
+    <form>
+        <p>How many players are there?</p>
+        <select name="numberOfPlayers" id="numberOfPlayers" onchange="formSelect()">
+          <option></option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+    </form>
+    <div id="1">
+      <h1>player 1</h1>
+      <br><br>
+      <select>choose a cake
+        <option></option>
+        <option value="sky">sky</option>
+        <option value="chocolate">chocolate</option>
+        <option value="birthday">birthday</option>
+        <option value="flowers">flowers</option>
+        <option value="confetti">confetti</option>
+        <!-- how about an onclick select a cake from an array of images? -->
+      </select>
+      111111
+  </div>
+
+      <!-- okay, here's the button to play, let's get to it -->
+      <button class="play_button" onclick="location.href='round-1.html';">PLAY</button>
+      <!-- you like my footer? -->
+      <footer>Roll the Cake was originally conceived by Maude Weaver</footer>
+    </div>
+    </body>
+</html>

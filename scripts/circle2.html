@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll the Cake</title>
+    <!-- <script src="roll.js" defer></script> -->
+    
+    <link href="../style/style.css" rel="stylesheet"/>
+    
+</head>
+<body>
+    <div class="container">
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <script src="gamecanvas.js"></script>
+    <button id="startButton">Start Game</button>
+     <div id="playerSelectContainer" style="display: none">
+      <div id="howMany"></div>
+      <div id="selectDisplay">
+        <select id="player-count">
+          <option value="1">1 Player</option>
+          <option value="2">2 Players</option>
+          <option value="3">3 Players</option>
+          <option value="4">4 Players</option>
+          <option value="5">5 Players</option>         
+        </select>
+        <button id="select-players-button">Continue</button>
+      </div>
+      </div>
+    <div id ="cakeChooser" style="display: none">
+        
+    </div>
+
+    <div id="dice" style="display:none">
+      <div id="playerCommand"></div>
+      <button id="diceRoll">ROLL</button>
+      <div id="rollValue"></div>
+      <div id="imageDisplay"></div>
+    </div>
+</div>
+</body>
+</html>

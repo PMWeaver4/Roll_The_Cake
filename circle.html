@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Game Board</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body style="text-align: center">
+    <canvas id="gameCanvas" width="750" height="750"></canvas>
+
+    <script>
+        // Get the canvas element
+        var canvas = document.getElementById("gameCanvas");
+        var ctx = canvas.getContext("2d");
+        let ctx2 = canvas.getContext("2d");
+
+        // Set the center of the circle
+        var centerX = canvas.width / 2;
+        var centerY = canvas.height / 2;
+
+        // Set the radius of the circle
+        var radius = 375;
+
+        // Draw the circle
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx2.arc(centerX, centerY, radius*0.75, 0, 2 * Math.PI);
+        ctx.stroke();
+        //to-do: this ctx thing is pretty cool, see if we can make it more dynamic with mins.
+        //also, see if I can draw the (20) spaces, and change the background color on individual ones
+        </script>
+</body>
+</html>
