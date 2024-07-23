@@ -1,8 +1,10 @@
+//here's the game
 window.onload = function () {
+  //establish the canvas
   var canvas = document.getElementById("gameCanvas");
   var ctx = canvas.getContext("2d");
   let ctx2 = canvas.getContext("2d");
-
+  //positions and sizes
   var centerX = canvas.width / 2;
   var centerY = canvas.height / 2;
   var radius = 300;
@@ -20,6 +22,7 @@ window.onload = function () {
 
   //establish objects
   let newPlayer = [];
+
   //establish arrays
   let players = [];
   // let previousPositions = [];
@@ -35,25 +38,6 @@ window.onload = function () {
     { src: "../images/flowers_cake.jpg", name: "flower" },
     { src: "../images/confetti_cake.jpg", name: "confetti" },
   ];
-
-  // Define Image objects outside the loop
-  let cakeImages = {}; // Object to store loaded Image objects
-
-  // Preload images
-  var loadedImages = [];
-  var imagesLoaded = 0;
-  images.forEach(function (url) {
-    var img = new Image();
-    img.onload = function () {
-      imagesLoaded++;
-      if (imagesLoaded === images.length) {
-        // All images are loaded, now draw them
-        drawImages();
-      }
-    };
-    img.src = url;
-    loadedImages.push(img);
-  });
 
   // Draw the circle
   ctx.beginPath();
@@ -125,6 +109,22 @@ window.onload = function () {
     ctx.restore();
   }
 
+  // Preload images....
+  // var loadedImages = [];
+  // var imagesLoaded = 0;
+  // images.forEach(function (url) {
+  //   var img = new Image();
+  //   img.onload = function () {
+  //     imagesLoaded++;
+  //     if (imagesLoaded === images.length) {
+  //       // All images are loaded, now draw them
+  //       drawImages();
+  //     }
+  //   };
+  //   img.src = url;
+  //   loadedImages.push(img);
+  // });
+
   // if (i % 4 === 0) {
   //   let img = loadedImages[i % images.length];
   //   ctx.drawImage(img, imgX, imgY, squareSize, squareSize);
@@ -133,10 +133,11 @@ window.onload = function () {
   // }
   // ctx.restore();
 
+  // states
   let selectNumberOfPlayers,
-    cakeSelect,
     play = false;
 
+  //"title page"
   let titleImg = new Image();
   titleImg.src = "../images/roll_the_cake_title.png";
   titleImg.onload = function () {
@@ -162,6 +163,7 @@ window.onload = function () {
       radius * 0.9
     );
     startButton.remove();
+    //set state and go
     selectNumberOfPlayers = true;
     if (selectNumberOfPlayers === true) {
       let string = document.createElement("h2");
@@ -182,6 +184,7 @@ window.onload = function () {
     }
   }
 
+  //declare who is selecting their character
   let currentPlayer = 1;
 
   function selectCakes(playerCount) {
@@ -190,7 +193,9 @@ window.onload = function () {
     document.getElementById("cakeChooser").style.display = "block";
     const container = document.getElementById("cakeChooser");
 
+    //function to ask player which cake they're selecting
     function promptPlayer() {
+      //clear the prompt and display current message
       container.innerHTML = "";
       let display = document.createElement("h1");
       display.textContent =
@@ -212,6 +217,7 @@ window.onload = function () {
       });
     }
 
+    //Declare where each cake appears on the game board
     function entryLocation(cakeName) {
       if (cakeName === "sky") {
         return 0;
@@ -228,7 +234,7 @@ window.onload = function () {
         return 16;
       }
     }
-
+    //whichever image is clicked, the player object is set and an alert pops up
     function handleImageClick(index) {
       alert(
         `${currentPlayer} you have chosen ${images[index].name} as your cake`
@@ -245,22 +251,24 @@ window.onload = function () {
         prevImgY: 0,
       };
       players.push(newPlayer);
+      //remove the image from the available array
       images.splice(index, 1);
       currentPlayer++;
       selectCakes(playerCount);
     }
-
+    //picks a random cake
     function randoCake() {
       let selectedNumber = parseInt(Math.floor(images.length * Math.random()));
       let selectedCake = images[selectedNumber].name;
 
       return selectedCake;
     }
-
+    //run the prompt until all players have selected
     if (currentPlayer <= playerCount) {
       promptPlayer();
     } else {
       for (i = currentPlayer; i <= 5; i++) {
+        //assign the random cakes
         let nameOfCake = randoCake();
         let randoImage = "";
         for (j = 0; j < images.length; j++) {
@@ -287,6 +295,7 @@ window.onload = function () {
       alert("let's begin");
     }
     console.log(players);
+    //start the game
     if (play == true) {
       document.getElementById("dice").style.display = "block";
       gameplay();
@@ -300,20 +309,23 @@ window.onload = function () {
     rollValue.innerHTML = "";
     let p1 = document.createElement("p");
     let p4 = document.createElement("p");
+    //dice roll - random number between 1 and 6
     let rollNumber = Math.floor(6.0 * Math.random() + 1);
     p1.textContent = rollNumber;
     rollValue.appendChild(p1);
-
+    //rolling a 1 to get onto the board
     if (rollNumber == 1 && players[playerTurn].position == 20) {
       playerCommand.innerHTML = "";
       p4.textContent = `Player ${players[playerTurn].cakeName}, good job! Roll again`;
       playerCommand.appendChild(p4);
+      //determine where the player is appearing
       players[playerTurn].position = players[playerTurn].entryLocation;
+      //determine if there are any interactions with other players
       analyzePosition(playerTurn);
     } else if (players[playerTurn].position == 20) {
       playerCommand.innerHTML = "";
       p4.textContent = `Better luck next time!`;
-
+      //player did not successfully roll onto the board
       playerCommand.appendChild(p4);
       playerTurn++;
       if (playerTurn == playerCount) {
@@ -321,21 +333,29 @@ window.onload = function () {
       }
     } else {
       playerCommand.innerHTML = "";
+      // add the roll number to the player's position
       players[playerTurn].position = players[playerTurn].position + rollNumber;
       players[playerTurn].position = players[playerTurn].position % 20;
+      //see how their new position interacts with other players
       analyzePosition(playerTurn);
 
       playerTurn++;
+      //start rotation of turns over if last player has gone
       if (playerTurn == playerCount) {
         playerTurn = 0;
       }
     }
+    //re-run gameplay with appropriate player turn
     gameplay();
   });
 
+  //takes the position of the player(i) and determines how it interacts with other players
   function analyzePosition(i) {
+    //go through available players
     for (j = 0; j < 5; j++) {
+      //if not yourself
       if (i != j) {
+        //land on an active player, bump them forward then analyze their position
         if (
           players[i].position === players[j].position &&
           players[j].active === true
@@ -346,17 +366,19 @@ window.onload = function () {
           );
           analyzePosition(j);
         } else {
-          //check to see if they win
+          //check to see if they win (land directly on their entry location)
           if (
             players[i].position === players[i].entryLocation &&
             players[i].prevPosition != 20
           ) {
             playerWin(i);
           }
+          //if player i lands on player j's entry location
           if (players[i].position === players[j].entryLocation) {
+            //figure out if they are summoning them onto the board or expelling them off the board
             swapPosition(i, j);
           }
-
+          //display who won and disable the game from going any further
           function playerWin(i) {
             rollValue.innerHTML = "";
             rollButton.remove();
@@ -366,8 +388,10 @@ window.onload = function () {
             rollValue.appendChild(p2);
             console.log(`${players[i].cakeName} has won the game!`);
           }
+          //figure out if they are summoning them onto the board or expelling them off the board
           function swapPosition(i, j) {
             let p2 = document.createElement("p");
+            //bringing them on to the board
             if (players[j].position == 20) {
               players[j].position = players[j].entryLocation;
               players[i].position = players[i].position + 1;
@@ -375,32 +399,41 @@ window.onload = function () {
               playerCommand.appendChild(p2);
               p2.textContet = `Boing! ${players[i].cakeName}, you bounced to ${players[i].position}`;
               playerCommand.appendChild(p2);
-            } else if (players[j].active === false) {
+            }
+            //inactive player, just bounce forward one
+            else if (players[j].active === false) {
               players[i].position = players[i].position + 1;
               p2.textContent = `Boing! ${players[i].cakeName}, you bounced to ${players[i].position}`;
               playerCommand.appendChild(p2);
-            } else {
+            }
+            //active player gets expelled back to the center
+            else {
               players[j].prevPosition = players[j].position;
               players[j].position = 20;
               p2.textContent = `Sorry ${players[j].cakeName}, back to the center with you.`;
               playerCommand.appendChild(p2);
             }
+            //draws images in the appropriate spot based on their positions
             updatePositionsAndRedraw();
           }
         }
       }
     }
   }
-
+  //draws images in the appropriate spot based on their positions
   function updatePositionsAndRedraw() {
+    //goes through each space
     for (var i = 0; i < numSpaces; i++) {
+      //goes through each player
       for (let j = 0; j < 5; j++) {
+        //if their position has changed
         if (players[j].prevPosition != players[j].position) {
           angle = -(Math.PI / 2) + players[j].prevPosition * spaceAngle;
           x = centerX + 0.875 * radius * Math.cos(angle);
           y = centerY + 0.875 * radius * Math.sin(angle);
           let imgX = x - squareSize / 2;
           let imgY = y - squareSize / 2;
+          //clears them off the previous spot on the board
           if (players[j].prevPosition != 20) {
             ctx.clearRect(imgX, imgY, squareSize, squareSize);
           }
@@ -410,7 +443,7 @@ window.onload = function () {
           ctx.beginPath();
           ctx.rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
           ctx.stroke();
-          //|| players[j].prevPosition == 20
+          //redraws what was in that spot
           if (players[j].prevPosition == 0) {
             let img = new Image();
             img.src = "../images/sky_cake.jpg";
@@ -511,6 +544,7 @@ window.onload = function () {
     }
   }
 
+  //tells which player who's turn it is, and runs the updateandredraw function
   function gameplay() {
     let p2 = document.createElement("p");
     let p3 = document.createElement("p");
@@ -521,8 +555,6 @@ window.onload = function () {
       p3.textContent = `${players[playerTurn].cakeName} roll a "1" to get out of the center`;
       playerCommand.appendChild(p3);
     } else {
-      // playerCommand.innerHTML = "";
-      // rollValue.innerHTML = "";
       p3.textContent = `${players[playerTurn].cakeName} roll!`;
       playerCommand.appendChild(p3);
     }
