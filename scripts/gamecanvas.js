@@ -13,6 +13,7 @@ window.onload = function () {
   var spaceAngle = (2 * Math.PI) / numSpaces;
   var squareSize = 50;
   var imageSize = 50;
+  let largerImageSize = 75;
   let titleImgSizeHeight = 150;
   let titleImgSizeWidth = 300;
 
@@ -38,6 +39,22 @@ window.onload = function () {
     { src: "../images/flowers_cake.jpg", name: "flower" },
     { src: "../images/confetti_cake.jpg", name: "confetti" },
   ];
+
+  const diceImages = {
+    1: "../images/dice-six-faces-one.png",
+    2: "../images/dice-six-faces-two.png",
+    3: "../images/dice-six-faces-three.png",
+    4: "../images/dice-six-faces-four.png",
+    5: "../images/dice-six-faces-five.png",
+    6: "../images/dice-six-faces-six.png",
+  };
+
+  const diceTransitionImage = {
+    src: "../images/rolling-dices.png",
+    name: "transition",
+    height: imageSize,
+    width: imageSize,
+  };
 
   // Draw the circle
   ctx.beginPath();
@@ -199,11 +216,13 @@ window.onload = function () {
       container.innerHTML = "";
       let display = document.createElement("h1");
       display.textContent =
-        "Player" + currentPlayer + ", please choose a cake:";
+        "Player " + currentPlayer + ", please choose a cake:";
       container.appendChild(display);
       images.forEach((images, index) => {
         const img = document.createElement("img");
         img.src = images.src;
+        // Add a class to style the images (optional)
+        img.classList.add("gallery-image");
         img.width = imageSize;
         img.height = imageSize;
         img.alt = images.name;
@@ -306,115 +325,128 @@ window.onload = function () {
 
   //event listener for rollbutton
   rollButton.addEventListener("click", () => {
-    rollValue.innerHTML = "";
-    let p1 = document.createElement("p");
-    let p4 = document.createElement("p");
-    //dice roll - random number between 1 and 6
-    let rollNumber = Math.floor(6.0 * Math.random() + 1);
-    p1.textContent = rollNumber;
-    rollValue.appendChild(p1);
-    //rolling a 1 to get onto the board
-    if (rollNumber == 1 && players[playerTurn].position == 20) {
-      playerCommand.innerHTML = "";
-      p4.textContent = `Player ${players[playerTurn].cakeName}, good job! Roll again`;
-      playerCommand.appendChild(p4);
-      //determine where the player is appearing
-      players[playerTurn].position = players[playerTurn].entryLocation;
-      //determine if there are any interactions with other players
-      analyzePosition(playerTurn);
-    } else if (players[playerTurn].position == 20) {
-      playerCommand.innerHTML = "";
-      p4.textContent = `Better luck next time!`;
-      //player did not successfully roll onto the board
-      playerCommand.appendChild(p4);
-      playerTurn++;
-      if (playerTurn == playerCount) {
-        playerTurn = 0;
-      }
-    } else {
-      playerCommand.innerHTML = "";
-      // add the roll number to the player's position
-      players[playerTurn].position = players[playerTurn].position + rollNumber;
-      players[playerTurn].position = players[playerTurn].position % 20;
-      //see how their new position interacts with other players
-      analyzePosition(playerTurn);
+    rollValue.classList.add("transitioning");
+    setTimeout(() => {
+      rollValue.innerHTML = "";
+      let p4 = document.createElement("p");
+      let d1 = document.createElement("img");
+      //dice roll - random number between 1 and 6
+      let rollNumber = Math.floor(6.0 * Math.random() + 1);
+      let diceImageSrc = diceImages[rollNumber];
+      d1.src = diceImageSrc;
+      d1.width = imageSize;
+      d1.height = imageSize;
+      rollValue.appendChild(d1);
+      rollValue.classList.remove("transitioning");
+      //rolling a 1 to get onto the board
+      if (rollNumber == 1 && players[playerTurn].position == 20) {
+        playerCommand.innerHTML = "";
+        p4.textContent = `Player ${players[playerTurn].cakeName}, good job! Roll again`;
+        playerCommand.appendChild(p4);
+        //determine where the player is appearing
+        players[playerTurn].position = players[playerTurn].entryLocation;
+        //determine if there are any interactions with other players
+        analyzePosition(playerTurn);
+      } else if (players[playerTurn].position == 20) {
+        playerCommand.innerHTML = "";
+        p4.textContent = `Better luck next time!`;
+        //player did not successfully roll onto the board
+        playerCommand.appendChild(p4);
+        playerTurn++;
+        if (playerTurn == playerCount) {
+          playerTurn = 0;
+        }
+      } else {
+        playerCommand.innerHTML = "";
+        // add the roll number to the player's position
+        players[playerTurn].position =
+          players[playerTurn].position + rollNumber;
+        players[playerTurn].position = players[playerTurn].position % 20;
+        //see how their new position interacts with other players
+        analyzePosition(playerTurn);
 
-      playerTurn++;
-      //start rotation of turns over if last player has gone
-      if (playerTurn == playerCount) {
-        playerTurn = 0;
+        playerTurn++;
+        //start rotation of turns over if last player has gone
+        if (playerTurn == playerCount) {
+          playerTurn = 0;
+        }
       }
-    }
-    //re-run gameplay with appropriate player turn
-    gameplay();
+      //re-run gameplay with appropriate player turn
+      gameplay();
+    }, 500);
   });
 
   //takes the position of the player(i) and determines how it interacts with other players
   function analyzePosition(i) {
     //go through available players
     for (j = 0; j < 5; j++) {
-      //if not yourself
-      if (i != j) {
-        //land on an active player, bump them forward then analyze their position
-        if (
-          players[i].position === players[j].position &&
-          players[j].active === true
-        ) {
-          players[j].position = (players[j].position + 1) % 20;
-          console.log(
-            `${players[j].cakeName} was bumped to ${players[j].position}`
-          );
-          analyzePosition(j);
-        } else {
-          //check to see if they win (land directly on their entry location)
+      if (play === true) {
+        //if not yourself
+        if (i != j) {
+          //land on an active player, bump them forward then analyze their position
           if (
-            players[i].position === players[i].entryLocation &&
-            players[i].prevPosition != 20
+            players[i].position === players[j].position &&
+            players[j].active === true
           ) {
-            playerWin(i);
-          }
-          //if player i lands on player j's entry location
-          if (players[i].position === players[j].entryLocation) {
+            players[j].position = (players[j].position + 1) % 20;
+            console.log(
+              `${players[j].cakeName} was bumped to ${players[j].position}`
+            );
+            analyzePosition(j);
+          } else {
+            //check to see if they win (land directly on their entry location)
+            if (
+              players[i].position === players[i].entryLocation &&
+              players[i].prevPosition != 20
+            ) {
+              playerWin(i);
+            }
+            //if player i lands on player j's entry location
+            if (players[i].position === players[j].entryLocation) {
+              //figure out if they are summoning them onto the board or expelling them off the board
+              swapPosition(i, j);
+            }
+            //display who won and disable the game from going any further
+            function playerWin(i) {
+              imageDisplay.innerHTML = "";
+              rollValue.innerHTML = "";
+              play = false;
+              rollButton.remove();
+              playerCommand.style.display = "none";
+              let p2 = document.createElement("p");
+              p2.textContent = `Player ${players[playerTurn].cakeName} has won the game!!!`;
+              rollValue.appendChild(p2);
+              console.log(`${players[i].cakeName} has won the game!`);
+            }
+
             //figure out if they are summoning them onto the board or expelling them off the board
-            swapPosition(i, j);
-          }
-          //display who won and disable the game from going any further
-          function playerWin(i) {
-            rollValue.innerHTML = "";
-            rollButton.remove();
-            playerCommand.style.display = "none";
-            let p2 = document.createElement("p");
-            p2.textContent = `Player ${players[playerTurn].cakeName} has won the game!!!`;
-            rollValue.appendChild(p2);
-            console.log(`${players[i].cakeName} has won the game!`);
-          }
-          //figure out if they are summoning them onto the board or expelling them off the board
-          function swapPosition(i, j) {
-            let p2 = document.createElement("p");
-            //bringing them on to the board
-            if (players[j].position == 20) {
-              players[j].position = players[j].entryLocation;
-              players[i].position = players[i].position + 1;
-              p2.textContent = `Welcome ${players[j].cakeName}!`;
-              playerCommand.appendChild(p2);
-              p2.textContet = `Boing! ${players[i].cakeName}, you bounced to ${players[i].position}`;
-              playerCommand.appendChild(p2);
+            function swapPosition(i, j) {
+              let p2 = document.createElement("p");
+              //bringing them on to the board
+              if (players[j].position == 20) {
+                players[j].position = players[j].entryLocation;
+                players[i].position = players[i].position + 1;
+                p2.textContent = `Welcome ${players[j].cakeName}!`;
+                playerCommand.appendChild(p2);
+                p2.textContet = `Boing! ${players[i].cakeName}, you bounced to ${players[i].position}`;
+                playerCommand.appendChild(p2);
+              }
+              //inactive player, just bounce forward one
+              else if (players[j].active === false) {
+                players[i].position = players[i].position + 1;
+                p2.textContent = `Boing! ${players[i].cakeName}, you bounced to ${players[i].position}`;
+                playerCommand.appendChild(p2);
+              }
+              //active player gets expelled back to the center
+              else {
+                players[j].prevPosition = players[j].position;
+                players[j].position = 20;
+                p2.textContent = `Sorry ${players[j].cakeName}, back to the center with you.`;
+                playerCommand.appendChild(p2);
+              }
+              //draws images in the appropriate spot based on their positions
+              updatePositionsAndRedraw();
             }
-            //inactive player, just bounce forward one
-            else if (players[j].active === false) {
-              players[i].position = players[i].position + 1;
-              p2.textContent = `Boing! ${players[i].cakeName}, you bounced to ${players[i].position}`;
-              playerCommand.appendChild(p2);
-            }
-            //active player gets expelled back to the center
-            else {
-              players[j].prevPosition = players[j].position;
-              players[j].position = 20;
-              p2.textContent = `Sorry ${players[j].cakeName}, back to the center with you.`;
-              playerCommand.appendChild(p2);
-            }
-            //draws images in the appropriate spot based on their positions
-            updatePositionsAndRedraw();
           }
         }
       }
@@ -562,11 +594,24 @@ window.onload = function () {
     //display image of player who's turn it is
     const imageDisplay = document.getElementById("imageDisplay");
     imageDisplay.innerHTML = "";
-    let currentCakeImg = new Image();
-    currentCakeImg.src = players[playerTurn].image;
-    currentCakeImg.width = imageSize;
-    currentCakeImg.height = imageSize;
-    imageDisplay.appendChild(currentCakeImg);
+
+    players.forEach((player, index) => {
+      // Create a new image element
+      let playerImg = new Image();
+
+      // Set the source and dimensions
+      playerImg.src = player.image;
+      playerImg.width = index === playerTurn ? largerImageSize : imageSize;
+      playerImg.height = index === playerTurn ? largerImageSize : imageSize;
+
+      // Append the image to the display element
+      imageDisplay.appendChild(playerImg);
+    });
+    // let currentCakeImg = new Image();
+    // currentCakeImg.src = players[playerTurn].image;
+    // currentCakeImg.width = imageSize;
+    // currentCakeImg.height = imageSize;
+    // imageDisplay.appendChild(currentCakeImg);
 
     //draw positions on the canvas
 

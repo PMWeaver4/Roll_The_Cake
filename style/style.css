@@ -41,8 +41,7 @@ canvas {
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
     position: absolute;
-    top: 40%;
-    left: 33%;
+
 
 }
 #selectDisplay {
@@ -57,9 +56,24 @@ canvas {
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
     position: absolute; /* Position absolutely relative to parent */
-    top: 50%; /* Move to vertical center */
-    left: 50%; /* Move to horizontal center */
-    transform: translate(-50%, -50%); /* Adjust to true center */
+    
+    /* top: 50%; Move to vertical center */
+    /* left: 50%; Move to horizontal center */
+    /* transform: translate(-50%, -50%); Adjust to true center */
+    
+  }
+
+  #rollValue {
+    transition: opacity 0.5s ease;
+  }
+  #rollValue.transitioning {
+    opacity: 0;
+  }
+
+  .gallery-image {
+    margin-right: 20px; 
+    
+    
   }
 
 .container{
@@ -67,7 +81,8 @@ canvas {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+    
 }
 
 
