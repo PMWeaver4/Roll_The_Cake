@@ -364,8 +364,16 @@ window.onload = function () {
         players[playerTurn].position = players[playerTurn].position % 20;
         //see how their new position interacts with other players
         analyzePosition(playerTurn);
-
-        playerTurn++;
+        if (play == true) {
+          playerTurn++;
+        }
+        if (play != true) {
+          imageDisplay.style.display = "none";
+          winner = document.getElementById("winner");
+          let winningImage = document.createElement("img");
+          winningImage.src = players[playerTurn].image;
+          winner.appendChild(winningImage);
+        }
         //start rotation of turns over if last player has gone
         if (playerTurn == playerCount) {
           playerTurn = 0;
@@ -408,11 +416,14 @@ window.onload = function () {
             }
             //display who won and disable the game from going any further
             function playerWin(i) {
-              imageDisplay.innerHTML = "";
-              rollValue.innerHTML = "";
+              //stop the game
               play = false;
               rollButton.remove();
               playerCommand.style.display = "none";
+              //clear images
+              imageDisplay.innerHTML = "";
+              rollValue.innerHTML = "";
+              //display winner info
               let p2 = document.createElement("p");
               p2.textContent = `Player ${players[playerTurn].cakeName} has won the game!!!`;
               rollValue.appendChild(p2);
