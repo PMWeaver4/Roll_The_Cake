@@ -3,7 +3,7 @@ window.onload = function () {
   //establish the canvas
   var canvas = document.getElementById("gameCanvas");
   var ctx = canvas.getContext("2d");
-  let ctx2 = canvas.getContext("2d");
+  // let ctx2 = canvas.getContext("2d");
   //positions and sizes
   var centerX = canvas.width / 2;
   var centerY = canvas.height / 2;
@@ -61,7 +61,7 @@ window.onload = function () {
   ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
   ctx.stroke();
   ctx.beginPath();
-  ctx2.arc(centerX, centerY, radius * 0.75, 0, 2 * Math.PI);
+  ctx.arc(centerX, centerY, radius * 0.75, 0, 2 * Math.PI);
   ctx.stroke();
 
   // Draw the spaces on the circle
@@ -209,6 +209,7 @@ window.onload = function () {
     ctx.clearRect(centerX - 210, centerY - 50, 420, radius * 0.3);
     document.getElementById("cakeChooser").style.display = "block";
     const container = document.getElementById("cakeChooser");
+    // const availableCakes = document.getElementById("availableCakes");
 
     //function to ask player which cake they're selecting
     function promptPlayer() {
@@ -218,6 +219,11 @@ window.onload = function () {
       display.textContent =
         "Player " + currentPlayer + ", please choose a cake:";
       container.appendChild(display);
+      // Create a container for images
+      const imagesContainer = document.createElement("div");
+      imagesContainer.classList.add("images-container");
+      container.appendChild(imagesContainer);
+
       images.forEach((images, index) => {
         const img = document.createElement("img");
         img.src = images.src;
@@ -232,7 +238,7 @@ window.onload = function () {
           // For example, call a function to handle selection
           handleImageClick(index, currentPlayer); // Pass the index of the image clicked
         });
-        container.appendChild(img);
+        imagesContainer.appendChild(img);
       });
     }
 
@@ -379,6 +385,20 @@ window.onload = function () {
           playerTurn = 0;
         }
       }
+      let playerTurnDisplay = document.getElementById("playerTurnDisplay");
+
+      // Check if there is already an image in playerTurnDisplay
+      let existingImage = playerTurnDisplay.querySelector("img");
+      if (existingImage) {
+        // Remove the old image
+        playerTurnDisplay.removeChild(existingImage);
+      }
+      let playerTurnImage = document.createElement("img");
+      playerTurnImage.innerHTML = "";
+      playerTurnImage.src = players[playerTurn].image;
+      playerTurnImage.width = imageSize;
+      playerTurnImage.height = imageSize;
+      playerTurnDisplay.appendChild(playerTurnImage);
       //re-run gameplay with appropriate player turn
       gameplay();
     }, 500);
@@ -602,21 +622,23 @@ window.onload = function () {
       playerCommand.appendChild(p3);
     }
 
-    //display image of player who's turn it is
+    //display image of players in the middle
     const imageDisplay = document.getElementById("imageDisplay");
     imageDisplay.innerHTML = "";
 
     players.forEach((player, index) => {
-      // Create a new image element
-      let playerImg = new Image();
+      if (player.position === 20) {
+        // Create a new image element
+        let playerImg = new Image();
 
-      // Set the source and dimensions
-      playerImg.src = player.image;
-      playerImg.width = index === playerTurn ? largerImageSize : imageSize;
-      playerImg.height = index === playerTurn ? largerImageSize : imageSize;
+        // Set the source and dimensions
+        playerImg.src = player.image;
+        playerImg.width = index === playerTurn ? largerImageSize : imageSize;
+        playerImg.height = index === playerTurn ? largerImageSize : imageSize;
 
-      // Append the image to the display element
-      imageDisplay.appendChild(playerImg);
+        // Append the image to the display element
+        imageDisplay.appendChild(playerImg);
+      }
     });
     // let currentCakeImg = new Image();
     // currentCakeImg.src = players[playerTurn].image;

@@ -4,7 +4,7 @@ body{
     justify-content: center;
     align-items: center;
     /* Stylize */
-    background-color: rgb(160, 222, 249);
+    background-color: rgb(237, 240, 242);
     text-decoration-color: blueviolet;
 
     background-attachment: fixed;
@@ -14,7 +14,7 @@ body{
 canvas {
     display: block;
     margin: 0 auto;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 #titleImg {
@@ -35,14 +35,14 @@ canvas {
     border-radius: 5px;
 }
 #playerSelectContainer {
-
+    
     display: flex;
     flex-direction: column;
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
     position: absolute;
-
-
+    
+    
 }
 #selectDisplay {
     display: flex;
@@ -50,30 +50,68 @@ canvas {
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
 }
-#cakeChooser, #dice {
+#cakeChooser {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
     position: absolute; /* Position absolutely relative to parent */
+    border: 1px solid black;
     
     /* top: 50%; Move to vertical center */
     /* left: 50%; Move to horizontal center */
     /* transform: translate(-50%, -50%); Adjust to true center */
     
-  }
+}
+
+#dice{
+    position: absolute;
+    width: 30%;
+    height: 50%;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+#displayConsole {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+
+}
+#playerCommand{
+    padding: 4px;
+    border: 1px solid black;
+    height: 40%;
+    background-color: black;
+    color: white;
+    
+}
+
+   #playerTurnDisplay{
+    border: 1px solid black;
+   }
 
   #rollValue {
     transition: opacity 0.5s ease;
+    border: 1px solid black;
   }
   #rollValue.transitioning {
     opacity: 0;
   }
 
   .gallery-image {
-    margin-right: 20px; 
-    
-    
+    /* margin-right: 20px;  */
+    margin: 10px;    
+  }
+  .images-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow images to wrap to the next line */
+    justify-content: center; /* Center images horizontally */
   }
 
 .container{
@@ -81,7 +119,6 @@ canvas {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    /* border: 1px solid black; */
     
 }
 
