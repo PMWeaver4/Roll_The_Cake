@@ -1,6 +1,6 @@
 body{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     /* Stylize */
@@ -66,9 +66,9 @@ canvas {
 
 #dice{
     position: absolute;
-    width: 30%;
-    height: 50%;
-    border: 1px solid black;
+    width: 20%;
+    height: 45%;
+    /* border: 1px solid black; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,12 +80,12 @@ canvas {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 
 }
 #playerCommand{
     padding: 4px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 40%;
     background-color: black;
     color: white;
@@ -93,12 +93,12 @@ canvas {
 }
 
    #playerTurnDisplay{
-    border: 1px solid black;
+    /* border: 1px solid black; */
    }
 
   #rollValue {
     transition: opacity 0.5s ease;
-    border: 1px solid black;
+    /* border: 1px solid black; */
   }
   #rollValue.transitioning {
     opacity: 0;
@@ -122,11 +122,18 @@ canvas {
     
 }
 
+#turnCounter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* border: 3px solid green; */
+    height: 600px;
+  }
 
 footer {
     display: flex;
     justify-content: center;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin: 1em;
     padding: 1em;
     width: 60%;

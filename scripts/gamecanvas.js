@@ -10,16 +10,16 @@ window.onload = function () {
   var radius = 300;
   var numSpaces = 20;
   var spaceAngle = (2 * Math.PI) / numSpaces;
-  var spaceAngle = (2 * Math.PI) / numSpaces;
-  var squareSize = 50;
-  var imageSize = 50;
-  let largerImageSize = 75;
+  var squareSize = 45;
+  var imageSize = 45;
+  let largerImageSize = 65;
   let titleImgSizeHeight = 150;
   let titleImgSizeWidth = 300;
 
   //html selector
   const playerCommand = document.getElementById("playerCommand");
   const rollButton = document.getElementById("diceRoll");
+  const turnCounter = document.getElementById("turnCounter");
 
   //establish objects
   let newPlayer = [];
@@ -30,6 +30,7 @@ window.onload = function () {
 
   //global variables
   let playerCount = 0;
+  let turnCount = 0;
 
   // Define images
   let images = [
@@ -385,23 +386,26 @@ window.onload = function () {
           playerTurn = 0;
         }
       }
-      let playerTurnDisplay = document.getElementById("playerTurnDisplay");
+      //show image of which player is playing
+      // let playerTurnDisplay = document.getElementById("playerTurnDisplay");
 
-      // Check if there is already an image in playerTurnDisplay
-      let existingImage = playerTurnDisplay.querySelector("img");
-      if (existingImage) {
-        // Remove the old image
-        playerTurnDisplay.removeChild(existingImage);
-      }
-      let playerTurnImage = document.createElement("img");
-      playerTurnImage.innerHTML = "";
-      playerTurnImage.src = players[playerTurn].image;
-      playerTurnImage.width = imageSize;
-      playerTurnImage.height = imageSize;
-      playerTurnDisplay.appendChild(playerTurnImage);
+      // // Check if there is already an image in playerTurnDisplay
+      // let existingImage = playerTurnDisplay.querySelector("img");
+      // if (existingImage) {
+      //   // Remove the old image
+      //   playerTurnDisplay.removeChild(existingImage);
+      // }
+      // let playerTurnImage = document.createElement("img");
+      // playerTurnImage.innerHTML = "";
+      // playerTurnImage.src = players[playerTurn].image;
+      // playerTurnImage.width = imageSize;
+      // playerTurnImage.height = imageSize;
+      // playerTurnDisplay.appendChild(playerTurnImage);
+
       //re-run gameplay with appropriate player turn
       gameplay();
-    }, 500);
+      turnCount++;
+    }, 1000);
   });
 
   //takes the position of the player(i) and determines how it interacts with other players
@@ -611,8 +615,12 @@ window.onload = function () {
   function gameplay() {
     let p2 = document.createElement("p");
     let p3 = document.createElement("p");
+    let p4 = document.createElement("p");
     p2.textContent = `Player ${players[playerTurn].cakeName} turn`;
     playerCommand.appendChild(p2);
+    turnCounter.innerHTML = "";
+    p4.textContent = turnCount;
+    turnCounter.appendChild(p4);
 
     if (players[playerTurn].position == 20) {
       p3.textContent = `${players[playerTurn].cakeName} roll a "1" to get out of the center`;
