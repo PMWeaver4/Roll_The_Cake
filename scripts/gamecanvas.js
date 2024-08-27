@@ -34,24 +34,24 @@ window.onload = function () {
 
   // Define images
   let images = [
-    { src: "../images/chocolate_cake.jpg", name: "chocolate" },
-    { src: "../images/sky_cake.jpg", name: "sky" },
-    { src: "../images/birthday_cake.jpg", name: "birthday" },
-    { src: "../images/flowers_cake.jpg", name: "flower" },
-    { src: "../images/confetti_cake.jpg", name: "confetti" },
+    { src: "./images/chocolate_cake.jpg", name: "chocolate" },
+    { src: "./images/sky_cake.jpg", name: "sky" },
+    { src: "./images/birthday_cake.jpg", name: "birthday" },
+    { src: "./images/flowers_cake.jpg", name: "flower" },
+    { src: "./images/confetti_cake.jpg", name: "confetti" },
   ];
 
   const diceImages = {
-    1: "../images/dice-six-faces-one.png",
-    2: "../images/dice-six-faces-two.png",
-    3: "../images/dice-six-faces-three.png",
-    4: "../images/dice-six-faces-four.png",
-    5: "../images/dice-six-faces-five.png",
-    6: "../images/dice-six-faces-six.png",
+    1: "./images/dice-six-faces-one.png",
+    2: "./images/dice-six-faces-two.png",
+    3: "./images/dice-six-faces-three.png",
+    4: "./images/dice-six-faces-four.png",
+    5: "./images/dice-six-faces-five.png",
+    6: "./images/dice-six-faces-six.png",
   };
 
   const diceTransitionImage = {
-    src: "../images/rolling-dices.png",
+    src: "./images/rolling-dices.png",
     name: "transition",
     height: imageSize,
     width: imageSize,
@@ -83,7 +83,7 @@ window.onload = function () {
     // Draw number or picture
     if (i == 0) {
       let img = new Image();
-      img.src = "../images/sky_cake.jpg";
+      img.src = "./images/sky_cake.jpg";
       img.onload = function () {
         ctx.globalAlpha = 0.25;
         ctx.drawImage(img, imgX, imgY, squareSize, squareSize);
@@ -91,7 +91,7 @@ window.onload = function () {
       };
     } else if (i == 4) {
       let img = new Image();
-      img.src = "../images/chocolate_cake.jpg";
+      img.src = "./images/chocolate_cake.jpg";
       img.onload = function () {
         ctx.globalAlpha = 0.25;
         ctx.drawImage(img, imgX, imgY, squareSize, squareSize);
@@ -99,7 +99,7 @@ window.onload = function () {
       };
     } else if (i == 8) {
       let img = new Image();
-      img.src = "../images/birthday_cake.jpg";
+      img.src = "./images/birthday_cake.jpg";
       img.onload = function () {
         ctx.globalAlpha = 0.25;
         ctx.drawImage(img, imgX, imgY, squareSize, squareSize);
@@ -107,7 +107,7 @@ window.onload = function () {
       };
     } else if (i == 12) {
       let img = new Image();
-      img.src = "../images/flowers_cake.jpg";
+      img.src = "./images/flowers_cake.jpg";
       img.onload = function () {
         ctx.globalAlpha = 0.25;
         ctx.drawImage(img, imgX, imgY, squareSize, squareSize);
@@ -115,7 +115,7 @@ window.onload = function () {
       };
     } else if (i == 16) {
       let img = new Image();
-      img.src = "../images/confetti_cake.jpg";
+      img.src = "./images/confetti_cake.jpg";
       img.onload = function () {
         ctx.globalAlpha = 0.25;
         ctx.drawImage(img, imgX, imgY, squareSize, squareSize);
@@ -157,7 +157,7 @@ window.onload = function () {
 
   //"title page"
   let titleImg = new Image();
-  titleImg.src = "../images/roll_the_cake_title.png";
+  titleImg.src = "./images/roll_the_cake_title.png";
   titleImg.onload = function () {
     ctx.drawImage(
       titleImg,
@@ -513,7 +513,7 @@ window.onload = function () {
           //redraws what was in that spot
           if (players[j].prevPosition == 0) {
             let img = new Image();
-            img.src = "../images/sky_cake.jpg";
+            img.src = "./images/sky_cake.jpg";
             img.onload = function () {
               ctx.globalAlpha = 0.25;
               ctx.drawImage(
@@ -527,7 +527,7 @@ window.onload = function () {
             };
           } else if (players[j].prevPosition == 4) {
             let img = new Image();
-            img.src = "../images/chocolate_cake.jpg";
+            img.src = "./images/chocolate_cake.jpg";
             img.onload = function () {
               ctx.globalAlpha = 0.25;
               ctx.drawImage(
@@ -541,7 +541,7 @@ window.onload = function () {
             };
           } else if (players[j].prevPosition == 8) {
             let img = new Image();
-            img.src = "../images/birthday_cake.jpg";
+            img.src = "./images/birthday_cake.jpg";
             img.onload = function () {
               ctx.globalAlpha = 0.25;
               ctx.drawImage(
@@ -555,7 +555,7 @@ window.onload = function () {
             };
           } else if (players[j].prevPosition == 12) {
             let img = new Image();
-            img.src = "../images/flowers_cake.jpg";
+            img.src = "./images/flowers_cake.jpg";
             img.onload = function () {
               ctx.globalAlpha = 0.25;
               ctx.drawImage(
@@ -569,7 +569,7 @@ window.onload = function () {
             };
           } else if (players[j].prevPosition == 16) {
             let img = new Image();
-            img.src = "../images/confetti_cake.jpg";
+            img.src = "./images/confetti_cake.jpg";
             img.onload = function () {
               ctx.globalAlpha = 0.25;
               ctx.drawImage(
